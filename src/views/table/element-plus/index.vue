@@ -5,6 +5,7 @@ import { type CreateOrUpdateTableRequestData, type GetTableData } from "@/api/ta
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
+import { handleApiError } from "@/utils/error-handler"
 
 defineOptions({
   // 命名当前组件
@@ -90,7 +91,8 @@ const getTableData = () => {
       paginationData.total = data.total
       tableData.value = data.list
     })
-    .catch(() => {
+    .catch((error) => {
+      handleApiError(error)
       tableData.value = []
     })
     .finally(() => {
